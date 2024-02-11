@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "editor.trimAutoWhitespace": true,
+    "idf.adapterTargetName": "esp8266",
+    "idf.port": "/dev/ttyUSB0",
+    "idf.flashType": "UART"
+}
