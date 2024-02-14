@@ -1,7 +1,20 @@
 {
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.intelliSenseEngineFallback": "disabled",
+    "C_Cpp.errorSquiggles": "enabledIfIncludesResolve",
     "editor.formatOnSave": true,
-    "editor.trimAutoWhitespace": true,
-    "idf.adapterTargetName": "esp8266",
+    "editor.formatOnSaveMode": "file",
+    "editor.defaultFormatter": "xaver.clang-format",
+    "clang-format.executable": "/usr/bin/clang-format",
+    "clang-format.style": "file",
+    "clang-format.fallbackStyle": "WebKit",
+    "clang-format.language.c.enable": true,
+    "clang-format.language.c.style": "file",
+    "clang-format.language.c.fallbackStyle": "WebKit",
+    "cmake.configureOnOpen": false,
+    "git.ignoreLimitWarning": true,
+    "git.autoRepositoryDetection": "openEditors",
+    "files.associations": {},
     "idf.port": "/dev/ttyUSB0",
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
 }

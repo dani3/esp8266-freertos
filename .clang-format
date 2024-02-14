@@ -37,5 +37,3 @@ AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 UseTab: Never
-
-...
