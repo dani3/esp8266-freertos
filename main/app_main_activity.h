@@ -24,7 +24,12 @@
 
 /// @brief Function pointer that an activity can use to register itself as a system event
 /// subscriber.
-typedef void (*app_activity_handler_t)(core_event_group_t event_group, size_t event_id);
+typedef bool (*app_activity_handler_t)(core_event_group_t event_group, size_t event_id);
+
+typedef enum {
+    APP_MAIN_ACTIVITY_ON_CREATE = 0,
+    APP_MAIN_ACTIVITY_ON_LAST,
+} app_main_activity_event_id_t;
 
 // * ----------------------------------------------------------------------------------------------
 // * Public API
@@ -41,5 +46,14 @@ void app_main_activity_start(void *params);
  * @param handler function pointer of type `app_activity_handler_t`.
  */
 void app_main_activity_register(app_activity_handler_t handler);
+
+/**
+ * @brief
+ *
+ * @param event_group
+ * @param event_id
+ * @param delay_ms
+ */
+void app_main_activity_send_event(core_event_group_t event_group, size_t event_id, size_t delay_ms);
 
 #endif

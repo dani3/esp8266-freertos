@@ -10,12 +10,13 @@ AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: 'false'
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Linux
 ColumnLimit: '100'
 PointerAlignment: Right
 SortIncludes: 'true'
 IncludeBlocks: Preserve
-SpaceAfterCStyleCast: 'true'
+SpaceAfterCStyleCast: 'false'
+SeparateDefinitionBlocks: Always
 SpaceAfterLogicalNot: 'false'
 SpaceBeforeAssignmentOperators: 'true'
 SpaceBeforeCpp11BracedList: 'true'
