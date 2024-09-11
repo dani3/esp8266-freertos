@@ -19,13 +19,14 @@
 // * ----------------------------------------------------------------------------------------------
 
 #define APP_MAIN_ACTIVITY_TASK_NAME  "APP_MAIN_ACTIVITY"
-#define APP_MAIN_ACTIVITY_STACK_SIZE configMINIMAL_STACK_SIZE
+#define APP_MAIN_ACTIVITY_STACK_SIZE (configMINIMAL_STACK_SIZE * 2)
 #define APP_MAIN_ACTIVITY_PRIORITY   1
 
 /// @brief Function pointer that an activity can use to register itself as a system event
 /// subscriber.
 typedef bool (*app_activity_handler_t)(core_event_group_t event_group, size_t event_id);
 
+/// @brief Enum that represents the event ids within the `CORE_EVENT_GROUP_SYSTEM` group.
 typedef enum {
     APP_MAIN_ACTIVITY_ON_CREATE = 0,
     APP_MAIN_ACTIVITY_ON_LAST,
@@ -48,11 +49,11 @@ void app_main_activity_start(void *params);
 void app_main_activity_register(app_activity_handler_t handler);
 
 /**
- * @brief
+ * @brief Send an event to the system.
  *
- * @param event_group
- * @param event_id
- * @param delay_ms
+ * @param event_group group this event belongs to.
+ * @param event_id group id.
+ * @param delay_ms time in milliseconds the sending of the event needs to be delayed by.
  */
 void app_main_activity_send_event(core_event_group_t event_group, size_t event_id, size_t delay_ms);
 
