@@ -21,6 +21,9 @@ typedef enum {
 // * Public API
 // * ----------------------------------------------------------------------------------------------
 
+/**
+ * @brief Initialize the app.
+ */
 void app_led_init();
 
 #endif

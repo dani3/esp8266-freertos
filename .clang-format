@@ -4,7 +4,6 @@ AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveMacros: 'true'
 AlignConsecutiveDeclarations: 'false'
 AlignEscapedNewlines: Right
-AlignTrailingComments: 'false'
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: 'false'

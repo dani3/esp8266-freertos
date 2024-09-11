@@ -12,7 +12,8 @@
 
 #include "app_main_activity.h"
 
-void app_main(void) {
+void app_main(void)
+{
     xTaskCreate(
         app_main_activity_start,
         APP_MAIN_ACTIVITY_TASK_NAME,
