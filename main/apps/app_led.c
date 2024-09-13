@@ -24,7 +24,7 @@
 // * Private Functions Prototypes
 // * ----------------------------------------------------------------------------------------------
 
-static bool _event_handler(core_event_group_t event_group, size_t event_id);
+static bool _event_handler(core_event_group_t event_group, int event_id);
 static bool _led_event_handler(app_led_event_id_t event_id);
 
 // * ----------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ static bool _led_event_handler(app_led_event_id_t event_id)
  * @param event_id
  * @return
  */
-static bool _event_handler(core_event_group_t event_group, size_t event_id)
+static bool _event_handler(core_event_group_t event_group, int event_id)
 {
     bool ret = false;
 

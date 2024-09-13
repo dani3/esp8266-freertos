@@ -29,8 +29,8 @@
 
 typedef struct {
     core_event_group_t group;
-    size_t id;
-    size_t target_time;
+    int id;
+    int target_time;
 } event_t;
 
 typedef struct event_queue_entry_t event_queue_entry_t;
@@ -47,7 +47,7 @@ struct event_queue_entry_t {
 
 static void _init();
 static event_queue_entry_t *_get_next_event();
-static void _notify_subscribers(core_event_group_t group_id, size_t id);
+static void _notify_subscribers(core_event_group_t group_id, int id);
 static void _remove_event(event_queue_entry_t *event);
 
 // * ----------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ static void _remove_event(event_queue_entry_t *event);
 
 // List of event subscribers.
 static app_activity_handler_t _subscribers[MAX_NUM_SUBSCRIBERS];
-static size_t _num_subscribers;
+static int _num_subscribers;
 
 // Event queue.
 static event_queue_entry_t *_event_queue;
@@ -86,7 +86,7 @@ static event_queue_entry_t *_get_next_event()
     return aux;
 }
 
-static void _notify_subscribers(core_event_group_t group_id, size_t id)
+static void _notify_subscribers(core_event_group_t group_id, int id)
 {
     for (int i = 0; i < _num_subscribers; ++i) {
         bool consumed = _subscribers[i](group_id, id);
@@ -112,7 +112,7 @@ static void _remove_event(event_queue_entry_t *event)
         }
     }
 
-    vPortFree(event);
+    free(event);
 }
 
 // * ----------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ void app_main_activity_start(void *params)
     ESP_LOGI(LOG_TAG, "initializing apps... ok");
 
     for (;;) {
-        vTaskDelay(1 / portTICK_PERIOD_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
 
         event_queue_entry_t *aux = _get_next_event();
 
@@ -152,22 +152,18 @@ void app_main_activity_register(app_activity_handler_t handler)
     assert(handler != NULL);
     assert(_num_subscribers + 1 <= MAX_NUM_SUBSCRIBERS);
 
-    ESP_LOGI(LOG_TAG, "Registering subscriber number=[%zu]", _num_subscribers);
+    ESP_LOGI(LOG_TAG, "Registering subscriber number=[%d]", (int)_num_subscribers);
 
     _subscribers[_num_subscribers] = handler;
     _num_subscribers++;
 }
 
-void app_main_activity_send_event(core_event_group_t event_group, size_t event_id, size_t delay_ms)
+void app_main_activity_send_event(core_event_group_t event_group, int event_id, int delay_ms)
 {
     ESP_LOGI(
-        LOG_TAG,
-        "Sending event with group=[%d], id=[%zu] in %zums",
-        event_group,
-        event_id,
-        delay_ms);
+        LOG_TAG, "Sending event with group=[%d], id=[%d] in %dms", event_group, event_id, delay_ms);
 
-    event_queue_entry_t *e = (event_queue_entry_t *)pvPortMalloc(sizeof(event_t));
+    event_queue_entry_t *e = (event_queue_entry_t *)malloc(sizeof(event_queue_entry_t));
     assert(e != NULL);
 
     e->next = NULL;

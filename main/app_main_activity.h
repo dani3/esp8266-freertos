@@ -24,7 +24,7 @@
 
 /// @brief Function pointer that an activity can use to register itself as a system event
 /// subscriber.
-typedef bool (*app_activity_handler_t)(core_event_group_t event_group, size_t event_id);
+typedef bool (*app_activity_handler_t)(core_event_group_t event_group, int event_id);
 
 /// @brief Enum that represents the event ids within the `CORE_EVENT_GROUP_SYSTEM` group.
 typedef enum {
@@ -55,6 +55,6 @@ void app_main_activity_register(app_activity_handler_t handler);
  * @param event_id group id.
  * @param delay_ms time in milliseconds the sending of the event needs to be delayed by.
  */
-void app_main_activity_send_event(core_event_group_t event_group, size_t event_id, size_t delay_ms);
+void app_main_activity_send_event(core_event_group_t event_group, int event_id, int delay_ms);
 
 #endif
