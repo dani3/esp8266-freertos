@@ -11,12 +11,12 @@
 #include <string.h>
 
 #include "FreeRTOS.h"
-#include "portable.h"
 #include "task.h"
 
 #include "esp_log.h"
 
 #include "apps/app_led.h"
+#include "core/core.h"
 #include "core/events.h"
 
 // * ----------------------------------------------------------------------------------------------
@@ -56,10 +56,10 @@ static void _remove_event(event_queue_entry_t *event);
 
 // List of event subscribers.
 static app_activity_handler_t _subscribers[MAX_NUM_SUBSCRIBERS];
-static int _num_subscribers;
+static int _num_subscribers = 0;
 
 // Event queue.
-static event_queue_entry_t *_event_queue;
+static event_queue_entry_t *_event_queue = NULL;
 
 // * ----------------------------------------------------------------------------------------------
 // * Private Functions
@@ -74,9 +74,10 @@ static void _init()
 
 static event_queue_entry_t *_get_next_event()
 {
+    int now = core_get_timestamp_ms();
     event_queue_entry_t *aux = _event_queue;
     while (aux != NULL) {
-        if (aux->event.target_time == 0) {
+        if (aux->event.target_time == 0 || now >= aux->event.target_time) {
             break;
         }
 
@@ -170,8 +171,7 @@ void app_main_activity_send_event(core_event_group_t event_group, int event_id, 
     e->prev = NULL;
     e->event.group = event_group;
     e->event.id = event_id;
-    /// @todo
-    e->event.target_time = 0;
+    e->event.target_time = core_get_timestamp_ms() + delay_ms;
 
     // No events in the queue
     if (_event_queue == NULL) {
