@@ -28,9 +28,9 @@ typedef bool (*app_activity_handler_t)(core_event_group_t event_group, int event
 
 /// @brief Enum that represents the event ids within the `CORE_EVENT_GROUP_SYSTEM` group.
 typedef enum {
-    APP_MAIN_ACTIVITY_ON_CREATE = 0,
-    APP_MAIN_ACTIVITY_ON_LAST,
-} app_main_activity_event_id_t;
+    CORE_EVENT_ON_CREATE = 0,
+    CORE_EVENT_LAST,
+} core_event_id_t;
 
 // * ----------------------------------------------------------------------------------------------
 // * Public API

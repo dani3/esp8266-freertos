@@ -127,7 +127,7 @@ void app_main_activity_start(void *params)
     ESP_LOGI(LOG_TAG, "initializing activity... ok");
 
     // Push an initial event to notify that the system is initialized.
-    app_main_activity_send_event(CORE_EVENT_GROUP_SYSTEM, APP_MAIN_ACTIVITY_ON_CREATE, 0);
+    app_main_activity_send_event(CORE_EVENT_GROUP_SYSTEM, CORE_EVENT_ON_CREATE, 0);
 
     ESP_LOGI(LOG_TAG, "initializing apps...");
     // Apps initialization
