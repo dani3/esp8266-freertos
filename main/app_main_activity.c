@@ -7,7 +7,6 @@
 
 #include "app_main_activity.h"
 
-#include <assert.h>
 #include <string.h>
 
 #include "FreeRTOS.h"
@@ -47,7 +46,7 @@ struct event_queue_entry_t {
 
 static void _init();
 static event_queue_entry_t *_get_next_event();
-static void _notify_subscribers(core_event_group_t group_id, int id);
+static void _notify_subscribers(const event_queue_entry_t *event);
 static void _remove_event(event_queue_entry_t *event);
 
 // * ----------------------------------------------------------------------------------------------
@@ -65,6 +64,9 @@ static event_queue_entry_t *_event_queue = NULL;
 // * Private Functions
 // * ----------------------------------------------------------------------------------------------
 
+/**
+ * @brief Initialize the module.
+ */
 static void _init()
 {
     memset(_subscribers, 0, sizeof(_subscribers));
@@ -72,6 +74,27 @@ static void _init()
     _event_queue = NULL;
 }
 
+/**
+ * @brief Notify the subscribers with the given event.
+ *
+ * @param group_id Event group id.
+ * @param id Event id.
+ */
+static void _notify_subscribers(const event_queue_entry_t *event)
+{
+    for (int i = 0; i < _num_subscribers; ++i) {
+        bool consumed = _subscribers[i](event->event.group, event->event.id);
+        if (consumed) {
+            break;
+        }
+    }
+}
+
+/**
+ * @brief Get the next event from the event queue.
+ *
+ * @return pointer to the next event in the queue.
+ */
 static event_queue_entry_t *_get_next_event()
 {
     int now = core_get_timestamp_ms();
@@ -87,16 +110,11 @@ static event_queue_entry_t *_get_next_event()
     return aux;
 }
 
-static void _notify_subscribers(core_event_group_t group_id, int id)
-{
-    for (int i = 0; i < _num_subscribers; ++i) {
-        bool consumed = _subscribers[i](group_id, id);
-        if (consumed) {
-            break;
-        }
-    }
-}
-
+/**
+ * @brief Remove an event from the event queue.
+ *
+ * @param event event to remove.
+ */
 static void _remove_event(event_queue_entry_t *event)
 {
     // It's the first event in the queue.
@@ -137,21 +155,21 @@ void app_main_activity_start(void *params)
     for (;;) {
         vTaskDelay(10 / portTICK_PERIOD_MS);
 
-        event_queue_entry_t *aux = _get_next_event();
+        event_queue_entry_t *event = _get_next_event();
 
-        if (aux == NULL) {
+        if (event == NULL) {
             continue;
         }
 
-        _notify_subscribers(aux->event.group, aux->event.id);
-        _remove_event(aux);
+        _notify_subscribers(event);
+        _remove_event(event);
     }
 }
 
 void app_main_activity_register(app_activity_handler_t handler)
 {
-    assert(handler != NULL);
-    assert(_num_subscribers + 1 <= MAX_NUM_SUBSCRIBERS);
+    CORE_ASSERT(handler != NULL);
+    CORE_ASSERT(_num_subscribers + 1 <= MAX_NUM_SUBSCRIBERS);
 
     ESP_LOGI(LOG_TAG, "Registering subscriber number=[%d]", (int)_num_subscribers);
 
@@ -165,7 +183,7 @@ void app_main_activity_send_event(core_event_group_t event_group, int event_id, 
         LOG_TAG, "Sending event with group=[%d], id=[%d] in %dms", event_group, event_id, delay_ms);
 
     event_queue_entry_t *e = (event_queue_entry_t *)malloc(sizeof(event_queue_entry_t));
-    assert(e != NULL);
+    CORE_ASSERT(e != NULL);
 
     e->next = NULL;
     e->prev = NULL;
