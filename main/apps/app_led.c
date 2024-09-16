@@ -2,7 +2,7 @@
  * @file app_led_activity.c
  * @author Daniel Mancebo (daniel.m.aldea@hotmail.com)
  *
- * @brief
+ * @brief Implementation of the app that handles the LED.
  */
 
 #include "app_main_activity.h"
@@ -24,6 +24,8 @@
 #define LED_OFF 1
 #define LED_ON  0
 
+#define LED_PIN GPIO_NUM_2
+
 // * ----------------------------------------------------------------------------------------------
 // * Private Functions Prototypes
 // * ----------------------------------------------------------------------------------------------
@@ -44,12 +46,12 @@ static bool _led_event_handler(app_led_event_id_t event_id)
     switch (event_id) {
         case APP_LED_EVENT_ID_ON: {
             ESP_LOGI(LOG_TAG, "APP_LED_EVENT_ID_ON");
-            gpio_set_level(GPIO_NUM_2, LED_ON);
+            gpio_set_level(LED_PIN, LED_ON);
         } break;
 
         case APP_LED_EVENT_ID_OFF: {
             ESP_LOGI(LOG_TAG, "APP_LED_EVENT_ID_OFF");
-            gpio_set_level(GPIO_NUM_2, LED_OFF);
+            gpio_set_level(LED_PIN, LED_OFF);
         } break;
     }
 
@@ -57,19 +59,15 @@ static bool _led_event_handler(app_led_event_id_t event_id)
 }
 
 /**
- * @brief
- *
- * @param event_group
- * @param event_id
- * @return
+ * @brief Main event handler.
  */
 static bool _event_handler(core_event_group_t event_group, int event_id)
 {
     bool ret = false;
 
     switch (event_group) {
-        case CORE_EVENT_GROUP_LED: {
-            ESP_LOGI(LOG_TAG, "CORE_EVENT_GROUP_LED");
+        case GLAZE_EVENT_GROUP_LED: {
+            ESP_LOGI(LOG_TAG, "GLAZE_EVENT_GROUP_LED");
             ret = _led_event_handler((app_led_event_id_t)event_id);
         } break;
 
@@ -89,8 +87,8 @@ void app_led_init()
     ESP_LOGI(LOG_TAG, "initializing app...");
 
     app_main_activity_register(_event_handler);
-    gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
-    gpio_set_level(GPIO_NUM_2, LED_OFF);
+    gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
+    gpio_set_level(LED_PIN, LED_OFF);
 
     ESP_LOGI(LOG_TAG, "initializing app... ok");
 }

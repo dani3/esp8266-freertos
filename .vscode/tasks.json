@@ -4,9 +4,10 @@
         {
             "label": "Build",
             "type": "shell",
+            "group": "build",
             "command": "./scripts/build.sh",
             "problemMatcher": [
-                "$espIdf"
+                "$gcc"
             ]
         }
     ]

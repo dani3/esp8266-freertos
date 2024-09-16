@@ -26,10 +26,10 @@
 /// subscriber.
 typedef bool (*app_activity_handler_t)(core_event_group_t event_group, int event_id);
 
-/// @brief Enum that represents the event ids within the `CORE_EVENT_GROUP_SYSTEM` group.
+/// @brief Enum that represents the event ids within the `GLAZE_EVENT_GROUP_SYSTEM` group.
 typedef enum {
-    CORE_EVENT_ON_CREATE = 0,
-    CORE_EVENT_LAST,
+    GLAZE_EVENT_ON_CREATE = 0,
+    GLAZE_EVENT_LAST,
 } core_event_id_t;
 
 // * ----------------------------------------------------------------------------------------------

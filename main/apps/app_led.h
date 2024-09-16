@@ -2,7 +2,7 @@
  * @file app_led.h
  * @author Daniel Mancebo (daniel.m.aldea@hotmail.com)
  *
- * @brief
+ * @brief App that handles the LED.
  */
 
 #ifndef __APP_LED_H__

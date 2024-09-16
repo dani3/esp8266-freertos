@@ -14,9 +14,9 @@
 
 /// @brief List of event groups.
 typedef enum {
-    CORE_EVENT_GROUP_SYSTEM,
-    CORE_EVENT_GROUP_LED,
-    CORE_EVENT_GROUP_LAST,
+    GLAZE_EVENT_GROUP_SYSTEM,
+    GLAZE_EVENT_GROUP_LED,
+    GLAZE_EVENT_GROUP_LAST,
 } core_event_group_t;
 
 #endif

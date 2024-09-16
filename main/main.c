@@ -2,7 +2,7 @@
  * @file main.c
  * @author Daniel Mancebo (daniel.m.aldea@hotmail.com)
  *
- * @brief
+ * @brief Entry point of the application.
  */
 
 #include <stdio.h>
