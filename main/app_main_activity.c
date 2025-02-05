@@ -164,6 +164,8 @@ void app_main_activity_start(void *params)
         _notify_subscribers(event);
         _remove_event(event);
     }
+
+    vTaskDelete(NULL);
 }
 
 void app_main_activity_register(app_activity_handler_t handler)

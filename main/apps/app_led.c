@@ -41,6 +41,9 @@ static bool _led_event_handler(app_led_event_id_t event_id);
 // * Private Functions
 // * ----------------------------------------------------------------------------------------------
 
+/**
+ * @brief LED event handler.
+ */
 static bool _led_event_handler(app_led_event_id_t event_id)
 {
     switch (event_id) {
@@ -59,7 +62,7 @@ static bool _led_event_handler(app_led_event_id_t event_id)
 }
 
 /**
- * @brief Main event handler.
+ * @brief System event handler.
  */
 static bool _event_handler(core_event_group_t event_group, int event_id)
 {
@@ -87,6 +90,7 @@ void app_led_init()
     ESP_LOGI(LOG_TAG, "initializing app...");
 
     app_main_activity_register(_event_handler);
+
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
     gpio_set_level(LED_PIN, LED_OFF);
 

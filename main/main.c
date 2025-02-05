@@ -11,6 +11,7 @@
 #include "freertos/task.h"
 
 #include "app_main_activity.h"
+#include "ble/ble.h"
 
 void app_main(void)
 {
@@ -20,5 +21,13 @@ void app_main(void)
         APP_MAIN_ACTIVITY_STACK_SIZE,
         NULL,
         tskIDLE_PRIORITY + APP_MAIN_ACTIVITY_PRIORITY,
+        NULL);
+
+    xTaskCreate(
+        ble_task,
+        BLE_TASK_NAME,
+        BLE_TASK_STACK_SIZE,
+        NULL,
+        tskIDLE_PRIORITY + BLE_TASK_PRIORITY,
         NULL);
 }
